@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>任务五：零基础HTML及CSS编码（二）</title>
+    <link rel="stylesheet" href="task05.css">
+</head>
+
+<body>
+    <header>
+        <h1>
+            <a href="#"><img src="http://ife.baidu.com/2017/asset/common/img/logo_a3b4064.png" alt="baidu"></a>
+        </h1>
+        <ul>
+            <li><a href="#">导航链接一</a></li>
+            <li><a href="#">导航链接二</a></li>
+            <li><a href="#">导航链接三</a></li>
+            <li><a href="#">导航链接四</a></li>
+        </ul>
+    </header>
+    <div class="register-container boxshadow">
+        <h2>这里以后是一个侧栏,这是侧栏的标题</h2>
+        <form class="register" action="index.html" method="post">
+            <span>请输入邮箱地址:</span>
+            <input type="text" id="txt_email" name="email" placeholder="这是一个文本输入框">
+            <br>
+            <span></span>
+            <span class="inform">邮箱地址请按要求格式输入</span>
+            <br>
+            <span>请输入密码:</span>
+            <input type="text" id="txt_password" name="email" placeholder="这是一个文本输入框">
+            <br>
+            <span>请重复输入密码:</span>
+            <input type="text" id="txt_repassword" name="email" placeholder="这是一个文本输入框">
+            <br>
+            <span></span>
+            <span class="inform">密码请为6-16位英文数字</span>
+            <br>
+            <span>性别:</span>
+            <input type="radio" name="sex" value="1" id="male" checked>
+            <label for="male">男</label>
+            <input type="radio" name="sex" value="0" id="female">
+            <label for="female">女</label>
+            <br>
+            <span>城市:</span>
+            <select>
+                <option value ="beijing">北京</option>
+                <option value ="shanghai">上海</option>
+                <option value="shenzhen">深圳</option>
+                <option value="hangzhou">杭州</option>
+            </select>
+            <br>
+            <span>爱好:</span>
+            <input type="checkbox" name="hobby" value="0" id="sports">
+            <label for="sports">运动</label>
+            <input type="checkbox" name="hobby" value="1" id="arts">
+            <label for="arts">艺术</label>
+            <input type="checkbox" name="hobby" value="2" id="science">
+            <label for="science">科学</label>
+            <br>
+            <span>个人描述:</span>
+            <textarea name="person-info" rows="5" cols="20" placeholder="这是一个多行输入框,输入您的个人描述"></textarea>
+        </form>
+        <button type="button" name="button" id="btn_submit">确认提交</button>
+    </div>
+    <main>
+        <div class="article-container boxshadow">
+            <h2>文章一级标题</h2>
+            <article class="content">
+                <h3>文章二级标题</h3>
+                <h4><span>文章作者</span> <span>文章发表时间</span></h4>
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,换行了</p>
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,<strong>这里有个粗体字</strong>这是一个很长很长的段落,这是一个很长很长的段落,<a href="http://ife.baidu.com">这里有一个链接点击后打开新窗口链接到http://ife.baidu.com</a>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,</p>
+                <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" alt="HTML CSS">
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,换行了</p>
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,<strong>这里有个粗体字</strong>这是一个很长很长的段落,这是一个很长很长的段落,<a href="http://ife.baidu.com">这里有一个链接点击后打开新窗口链接到http://ife.baidu.com</a>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,</p>
+            </article>
+        </div>
+        <div class="article-container boxshadow">
+            <h2>另一篇文章一级标题</h2>
+            <article class="content">
+                <h3>文章二级标题</h3>
+                <h4><span>文章作者</span> <span>文章发表时间</span></h4>
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,换行了</p>
+                <p>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,<strong>这里有个粗体字</strong>这是一个很长很长的段落,这是一个很长很长的段落,<a href="http://ife.baidu.com">这里有一个链接点击后打开新窗口链接到http://ife.baidu.com</a>这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,这是一个很长很长的段落,</p>
+                <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                <ul>
+                    <li>列表项目一</li>
+                    <li>列表项目二</li>
+                    <li>列表项目三</li>
+                </ul>
+            </article>
+        </div>
+        <div class="image-container boxshadow">
+            <h2>图片</h2>
+            <div class="image">
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+                <figure>
+                    <p>好看的图片</p>
+                    <img src="https://gss0.baidu.com/9rkZbzqaKgQUohGko9WTAnF6hhy/mms-res/fed/ife/ife_tutor/htmlcss.ec85cad580b3bfce.jpg" width="400px" alt="HTML CSS">
+                </figure>
+            </div>
+        </div>
+        <div class="article-container boxshadow">
+            <h2>最后一篇文章一级标题</h2>
+            <article class="content">
+                <h3>文章二级标题</h3>
+                <h4><span>文章作者</span> <span>文章发表时间</span></h4>
+                <ol>
+                    <li>排名1</li>
+                    <li>排名2</li>
+                    <li>排名3</li>
+                </ol>
+
+                <table border="0">
+                    <span>下面是一个表格,给表头加了一个border="1"好让你看出是一个表格</span>
+                    <tr>
+                        <th>表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
+                    </tr>
+                    <tr>
+                        <td>表内容单元格</td>
+                        <td>表内容单元格</td>
+                        <td><a href="#">操作</a></td>
+                    </tr>
+                    <tr>
+                        <td>表内容单元格</td>
+                        <td>表内容单元格</td>
+                        <td><a href="#">操作</a></td>
+                    </tr>
+                    <tr>
+                        <td>表内容单元格</td>
+                        <td>表内容单元格</td>
+                        <td><a href="#">操作</a></td>
+                    </tr>
+                    <tr>
+                        <td>表内容单元格</td>
+                        <td>表内容单元格</td>
+                        <td><a href="#">操作</a></td>
+                    </tr>
+                    <tr>
+                        <td>总计</td>
+                        <td colspan="2">1000</td>
+                    </tr>
+                </table>
+            </article>
+        </div>
+    </main>
+    <footer>
+        <p>版权所有&copy;</p>
+    </footer>
+</body>
+
+</html>
