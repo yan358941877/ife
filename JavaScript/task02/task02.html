@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+</head>
+
+<body>
+
+    <h3>污染城市列表</h3>
+    <ul id="aqi-list">
+        <!--   
+    <li>第一名：福州（样例），10</li>
+      <li>第二名：福州（样例），10</li> -->
+    </ul>
+
+    <script type="text/javascript">
+        var aqiData = [
+            ["北京", 90],
+            ["上海", 50],
+            ["福州", 10],
+            ["广州", 50],
+            ["成都", 90],
+            ["西安", 100]
+        ];
+
+        (function() {
+            var aqiList = document.getElementById('aqi-list');
+            var rank = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+            var polluteList = [];
+            // 筛选污染城市
+            for (var i = 0; i < aqiData.length; i++) {
+                if (aqiData[i][1] > 60) {
+                    polluteList.push(aqiData[i]);
+                }
+            }
+            // 对污染城市进行污染指数的从大到小排序
+            for (i = 0; i < polluteList.length - 1; i++) {
+                for (var j = i + 1; j < polluteList.length; j++) {
+                    if (polluteList[i][1] < polluteList[j][1]) {
+                        var temp = polluteList[i];
+                        polluteList[i] = polluteList[j];
+                        polluteList[j] = temp;
+                    }
+                }
+            }
+            // 将最终结果展现在页面上
+            for (i = 0; i < polluteList.length; i++) {
+                var node = document.createElement('li');
+                node.innerText = "第" + rank[i] + '名: ' + polluteList[i][0] + ' , ' + polluteList[i][1];
+                aqiList.appendChild(node);
+            }
+
+        })();
+    </script>
+</body>
+
+</html>
