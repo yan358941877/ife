@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务四:基础JavaScript练习</title>
+    <style>
+        #show {
+            margin-top: 20px;
+        }
+        
+        #show span {
+            display: inline-block;
+            background: #f00;
+            color: #fff;
+            margin-left: 10px;
+            height: 20px;
+            line-height: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="operate">
+        <input type="text" id="number">
+        <button id="left-insert">左插入</button>
+        <button id="right-insert">右插入</button>
+        <button id="left-pop">左侧出</button>
+        <button id="right-pop">右侧出</button>
+    </div>
+    <div id="show">
+
+    </div>
+</body>
+<script>
+    var txt_number = document.getElementById('number');
+    var btn_left_insert = document.getElementById("left-insert");
+    var btn_right_insert = document.getElementById("right-insert");
+    var btn_left_pop = document.getElementById('left-pop');
+    var btn_right_pop = document.getElementById('right-pop');
+    var div_show = document.getElementById('show');
+
+    function leftInsert() {
+        var value = txt_number.value;
+        if (isNaN(parseInt(value))) {
+            alert("请输入数字!");
+
+        } else {
+            var node = document.createElement('span');
+            node.innerText = value;
+            div_show.insertBefore(node, div_show.firstElementChild);
+        }
+        txt_number.value = '';
+    }
+
+    function rightInsert() {
+        var value = txt_number.value;
+        if (!parseInt(value)) {
+            alert("请输入数字!");
+
+        } else {
+            var node = document.createElement('span');
+            node.innerText = value;
+            div_show.appendChild(node);
+        }
+        txt_number.value = '';
+    }
+
+    function leftPop() {
+        if (div_show.children.length == 0) {
+            alert("当前队列为空!");
+            return;
+        }
+        var value = div_show.firstElementChild.innerText;
+        div_show.removeChild(div_show.firstElementChild);
+        alert("左侧删除" + value);
+    }
+
+    function rightPop() {
+        if (div_show.children.length == 0) {
+            alert("当前队列为空!");
+            return;
+        }
+        var value = div_show.lastElementChild.innerText;
+        div_show.removeChild(div_show.lastElementChild);
+        alert("右侧删除" + value);
+    }
+    btn_left_insert.addEventListener("click", leftInsert);
+    btn_right_insert.addEventListener("click", rightInsert);
+    btn_left_pop.addEventListener("click", leftPop);
+    btn_right_pop.addEventListener("click", rightPop);
+</script>
+
+</html>
