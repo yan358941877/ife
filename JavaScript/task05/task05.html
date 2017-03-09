@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务五:基础JavaScript练习</title>
+    <style>
+        #show {
+            margin-top: 20px;
+            height: 110px;
+        }
+        
+        #show span {
+            display: inline-block;
+            background: #f00;
+            width: 20px;
+            vertical-align: bottom;
+        }
+        
+        #sort {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="operate">
+        <input type="text" id="number">
+        <button id="left-insert">左插入</button>
+        <button id="right-insert">右插入</button>
+        <button id="left-pop">左侧出</button>
+        <button id="right-pop">右侧出</button>
+    </div>
+    <div id="show">
+
+    </div>
+    <button id="sort">冒泡排序</button>
+</body>
+<script>
+    var txt_number = document.getElementById('number');
+    var btn_left_insert = document.getElementById("left-insert");
+    var btn_right_insert = document.getElementById("right-insert");
+    var btn_left_pop = document.getElementById('left-pop');
+    var btn_right_pop = document.getElementById('right-pop');
+    var div_show = document.getElementById('show');
+    var btn_sort = document.getElementById('sort');
+    var count = 0;
+
+    function leftInsert() {
+        if (count > 60) {
+            alert("队列容量只有60!");
+            txt_number.value = '';
+            return;
+        }
+        var value = txt_number.value;
+        if (isNaN(parseInt(value))) {
+            alert("请输入数字!");
+            txt_number.value = '';
+            return;
+        }
+        if (parseInt(value) < 10 || parseInt(value) > 100) {
+            alert("请输入10~100的数字!");
+            txt_number.value = '';
+            return;
+        }
+        var node = document.createElement('span');
+        //node.innerText = value;
+        node.style.height = parseInt(value) + "px";
+        div_show.insertBefore(node, div_show.firstElementChild);
+
+        txt_number.value = '';
+        count++;
+    }
+
+    function rightInsert() {
+        if (count > 60) {
+            alert("队列容量只有60!");
+            txt_number.value = '';
+            return;
+        }
+        var value = txt_number.value;
+        if (!parseInt(value)) {
+            alert("请输入数字!");
+            txt_number.value = '';
+            return;
+        }
+        if (parseInt(value) < 10 || parseInt(value) > 100) {
+            alert("请输入10~100的数字!");
+            txt_number.value = '';
+            return;
+        }
+        var node = document.createElement('span');
+        //node.innerText = value;
+        node.style.height = value + "px";
+        div_show.appendChild(node);
+
+        txt_number.value = '';
+        count++;
+    }
+
+    function leftPop() {
+        if (div_show.children.length == 0) {
+            alert("当前队列为空!");
+            return;
+        }
+        var value = div_show.firstElementChild.innerText;
+        div_show.removeChild(div_show.firstElementChild);
+        alert("左侧删除" + value);
+        count--;
+    }
+
+    function rightPop() {
+        if (div_show.children.length == 0) {
+            alert("当前队列为空!");
+            return;
+        }
+        var value = div_show.lastElementChild.innerText;
+        div_show.removeChild(div_show.lastElementChild);
+        alert("右侧删除" + value);
+        count--;
+    }
+
+    function sort() {
+        var temp1, temp2;
+        var node1, node2;
+        for (var i = 0; i < div_show.children.length - 1; i++) {
+            for (var j = i + 1; j < div_show.children.length; j++) {
+                temp1 = div_show.children[i].style.height;
+                temp2 = div_show.children[j].style.height;
+                if (parseInt(temp1) > parseInt(temp2)) {
+                    node1 = document.createElement('span');
+                    node1.style.height = temp1;
+                    node2 = document.createElement('span');
+                    node2.style.height = temp2;
+                    div_show.replaceChild(node1, div_show.children[j]);
+                    div_show.replaceChild(node2, div_show.children[i]);
+                }
+
+            }
+        }
+    }
+    btn_left_insert.addEventListener("click", leftInsert);
+    btn_right_insert.addEventListener("click", rightInsert);
+    btn_left_pop.addEventListener("click", leftPop);
+    btn_right_pop.addEventListener("click", rightPop);
+    btn_sort.addEventListener("click", sort);
+</script>
+
+</html>
