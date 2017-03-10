@@ -15,6 +15,7 @@
             background: #f00;
             width: 20px;
             vertical-align: bottom;
+            margin-right: 10px;
         }
         
         #sort {
@@ -66,6 +67,7 @@
         var node = document.createElement('span');
         //node.innerText = value;
         node.style.height = parseInt(value) + "px";
+        node.style.marginTop = (100 - parseInt(value)) + "px";
         div_show.insertBefore(node, div_show.firstElementChild);
 
         txt_number.value = '';
@@ -92,6 +94,7 @@
         var node = document.createElement('span');
         //node.innerText = value;
         node.style.height = value + "px";
+        node.style.marginTop = (100 - parseInt(value)) + "px";
         div_show.appendChild(node);
 
         txt_number.value = '';
