@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务六：基础JavaScript练习</title>
+    <style>
+        p {
+            padding: 0;
+            margin: 0;
+        }
+        
+        span {
+            color: red;
+        }
+        
+        #show {
+            width: 255px;
+            height: 170px;
+            border: 1px solid #999;
+            margin-top: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="input">
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+    </div>
+    <div id="search">
+        <input type="text" id="keyword">
+        <button id="btn-search">查询</button>
+        <button id="btn-clear">清空</button>
+    </div>
+    <div id="show"></div>
+    <script>
+        var textarea = document.querySelector("#input textarea");
+        var keyword = document.querySelector("#keyword");
+        var btn_match = document.querySelector("#btn-search");
+        var btn_clear = document.querySelector("#btn-clear");
+        var showContainer = document.querySelector("#show");
+
+        function matchKeyWord() {
+            showContainer.innerHTML = '';
+            var input_content = textarea.value;
+            var input_keyword = keyword.value;
+            var flagLeft = '<span>';
+            var flagRight = '</span>';
+            var pattern = new RegExp(input_keyword, "g");
+            var pattern2 = /(\w+)/g;
+            var array = input_content.match(pattern2);
+            for (var i = 0; i < array.length; i++) {
+                var result = array[i].replace(pattern, flagLeft + input_keyword + flagRight);
+                var node = document.createElement("p");
+                node.innerHTML = result;
+                showContainer.appendChild(node);
+            }
+        }
+
+        function clearContent() {
+            textarea.value = '';
+            keyword.value = '';
+            showContainer.innerHTML = '';
+        }
+        btn_match.addEventListener('click', matchKeyWord);
+        btn_clear.addEventListener('click', clearContent);
+    </script>
+</body>
+
+</html>
