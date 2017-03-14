@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务七：JavaScript和树</title>
+    <style>
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            border: solid 1px #000;
+            margin: 0 5px;
+            background: #fff;
+        }
+        
+        .root {
+            width: 600px;
+        }
+        
+        .leaf {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .order {
+            border: 0;
+            width: 600px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .order button {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <div class="left">
+            <div class="left">
+                <div class="left leaf"></div>
+                <div class="right leaf"></div>
+            </div>
+            <div class="right">
+                <div class="left leaf"></div>
+                <div class="right leaf"></div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="left">
+                <div class="left leaf"></div>
+                <div class="right leaf"></div>
+            </div>
+            <div class="right">
+                <div class="left leaf"></div>
+                <div class="right leaf"></div>
+            </div>
+        </div>
+    </div>
+    <div class="order">
+        <button id="preOrder">先序遍历</button>
+        <button id="inOrder">中序遍历</button>
+        <button id="postOrder">后序遍历</button>
+    </div>
+    <script>
+        function Tree() {
+            this.stack = [];
+        }
+        Tree.prototype = {
+            constructor: Tree,
+            preOrder: function(node) {
+                this.stack.push(node);
+                if (node.childElementCount == 1) {
+                    this.preOrder(node.firstElementChild);
+                } else if (node.childElementCount == 2) {
+                    this.preOrder(node.firstElementChild);
+                    this.preOrder(node.lastElementChild);
+                }
+            },
+            inOrder: function(node) {
+                if (node.childElementCount == 1) {
+                    this.inOrder(node.firstElementChild);
+                    this.stack.push(node);
+                } else if (node.childElementCount == 2) {
+                    this.inOrder(node.firstElementChild);
+                    this.stack.push(node);
+                    this.inOrder(node.lastElementChild);
+                } else {
+                    this.stack.push(node);
+                }
+            },
+            postOrder: function(node) {
+                if (node.childElementCount == 1) {
+                    this.postOrder(node.firstElementChild);
+                    this.stack.push(node);
+                } else if (node.childElementCount == 2) {
+                    this.postOrder(node.firstElementChild);
+                    this.postOrder(node.lastElementChild);
+                    this.stack.push(node);
+                } else {
+                    this.stack.push(node);
+                }
+            },
+            changeColor: function(node) {
+                node.style.background = "#00f";
+                setTimeout(function() {
+                    node.style.background = "#fff";
+                }, 1000);
+            },
+            visitNode: function() {
+                var stack = this.stack;
+                var changeColor = this.changeColor;
+                var id = setInterval(function() {
+                    if (stack.length == 0) {
+                        clearInterval(id);
+                        flag = true;
+                        return;
+                    }
+                    changeColor(stack[0]);
+                    stack.shift();
+                }, 1000);
+            }
+        }
+        var root = document.querySelector(".root");
+        var btn_pre = document.querySelector("#preOrder"),
+            btn_in = document.querySelector("#inOrder"),
+            btn_post = document.querySelector("#postOrder");
+        var flag = true;
+        btn_pre.addEventListener("click", function() {
+            if (flag) {
+                flag = false;
+                var tree = new Tree();
+                tree.preOrder(root);
+                tree.visitNode();
+            }
+
+        });
+        btn_in.addEventListener("click", function() {
+            if (flag) {
+                flag = false;
+                var tree = new Tree();
+                tree.inOrder(root);
+                tree.visitNode();
+            }
+
+        });
+        btn_post.addEventListener("click", function() {
+            if (flag) {
+                flag = false;
+                var tree = new Tree();
+                tree.postOrder(root);
+                tree.visitNode();
+            }
+
+        });
+    </script>
+</body>
+
+</html>
