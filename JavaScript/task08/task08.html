@@ -98,35 +98,45 @@
     </div>
     <script>
         function Tree() {
+            // 遍历树过程中用到的"队列"
             this.stack = [];
             this.queue = [];
-            this.track = 0;
         }
         Tree.prototype = {
             constructor: Tree,
+            // 深度优先遍历: 和二叉树的先序遍历类似,
             depthFirst: function(node) {
                 this.stack.push(node);
                 for (var i = 0; i < node.children.length; i++) {
+                    // 将遍历到的节点放入stack中,用于结果展示
                     this.stack.push(node.children[i]);
                     this.depthFirst(node.children[i]);
                 }
             },
+            // 广度优先遍历
             breadthFirst: function(node) {
+                // 将根节点放入队列
                 this.queue.push(node);
+                // 当队列不为空时,执行循环,最终广度优先遍历的顺序将存放在stack中
                 while (this.queue.length > 0) {
+                    // 取出队列中的第一个节点
                     var temp = this.queue.shift(node);
+                    // 将遍历到的节点放入stack中,用于结果展示
                     this.stack.push(temp);
+                    // 将该节点的子节点以此放入队列中
                     for (var i = 0; i < temp.children.length; i++) {
                         this.queue.push(temp.children[i]);
                     }
                 }
             },
+            // 结果显示,用于改变遍历到节点的颜色
             changeColor: function(node) {
                 node.style.background = "#00f";
                 setTimeout(function() {
                     node.style.background = "#fff";
                 }, 1000);
             },
+            // 结果显示,用于改变遍历到节点的颜色
             changeColorSearch: function(node) {
                 node.style.background = "#f00";
                 setTimeout(function() {
@@ -137,12 +147,14 @@
                 var stack = this.stack;
                 var changeColor = this.changeColor;
                 var changeColorSearch = this.changeColorSearch;
+                //每隔1s,取出stack中的第一个节点,改变其颜色
                 var id = setInterval(function() {
                     if (stack.length == 0) {
                         clearInterval(id);
                         flag = true;
                         return;
                     }
+                    // 用于判断节点的文本信息是否和输入框内的内容相一致
                     if (stack[0].innerText.split('\n')[0] == value) {
                         changeColorSearch(stack[0]);
                         stack.shift();
@@ -158,7 +170,9 @@
         var btn_breadth = document.querySelector("#breadth"),
             btn_depth = document.querySelector("#depth"),
             input = document.querySelector('.search input');
+        // 在遍历过程中,加"锁",防止点击按钮开始新的遍历
         var flag = true;
+        // 给相应的button添加事件处理函数
         btn_depth.addEventListener("click", function() {
             if (flag) {
                 var value = input.value;
