@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务九：JavaScript和树</title>
+    <style>
+        div {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 5px;
+            border: solid 1px #000;
+            margin: 0 5px;
+            background: #fff;
+            font-size: 15px;
+        }
+        
+        .root {
+            float: left;
+        }
+        
+        .leaf {
+            height: 20px;
+        }
+        
+        .search {
+            border: 0;
+            padding-top: 20px;
+            clear: both;
+        }
+        
+        .order {
+            border: 0;
+            width: 600px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .order button,
+        .modify button {
+            display: inline-block;
+            margin: 0 10px;
+            width: 100px;
+        }
+        
+        .other {
+            height: 44px;
+        }
+        
+        .insert,
+        .modify {
+            border: 0;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        Super
+        <div>
+            animal
+            <div>
+                human
+                <div class="leaf">Chinese</div>
+                <div class="leaf">American</div>
+                <div class="leaf">Japanese</div>
+                <div class="leaf">Britisher</div>
+            </div>
+            <div>
+                poultry
+                <div class="leaf">chicken</div>
+                <div class="leaf">duck</div>
+            </div>
+            <div>
+                mammal
+                <div class="leaf">dog</div>
+                <div class="leaf">cat</div>
+                <div class="leaf">tiger</div>
+            </div>
+        </div>
+        <div>
+            plant
+            <div>
+                fruit
+                <div class="leaf">apple</div>
+                <div class="leaf">pear</div>
+                <div class="leaf">banana</div>
+            </div>
+            <div>
+                vegetable
+                <div class="leaf">carrot</div>
+                <div class="leaf">potato</div>
+                <div class="leaf">tomato</div>
+            </div>
+        </div>
+        <div class="other">other</div>
+    </div>
+    <div class="search">
+        请输入要查询的节点:<input type="text">
+    </div>
+    <div class="order">
+        <button id="breadth">广度优先遍历</button>
+        <button id="depth">深度优先遍历</button>
+    </div>
+    <div class="insert">
+        请输入要插入的节点内容:<input type="text">
+    </div>
+    <div class="modify">
+        <button id="add">插入节点</button>
+        <button id="remove">移除节点</button>
+    </div>
+    <script>
+        function Tree() {
+            // 遍历树过程中用到的"队列"
+            this.stack = [];
+            this.queue = [];
+        }
+        Tree.prototype = {
+            constructor: Tree,
+            // 深度优先遍历: 和二叉树的先序遍历类似,
+            depthFirst: function(node) {
+                this.stack.push(node);
+                for (var i = 0; i < node.children.length; i++) {
+                    // 将遍历到的节点放入stack中,用于结果展示
+                    this.stack.push(node.children[i]);
+                    this.depthFirst(node.children[i]);
+                }
+            },
+            // 广度优先遍历
+            breadthFirst: function(node) {
+                // 将根节点放入队列
+                this.queue.push(node);
+                // 当队列不为空时,执行循环,最终广度优先遍历的顺序将存放在stack中
+                while (this.queue.length > 0) {
+                    // 取出队列中的第一个节点
+                    var temp = this.queue.shift(node);
+                    // 将遍历到的节点放入stack中,用于结果展示
+                    this.stack.push(temp);
+                    // 将该节点的子节点以此放入队列中
+                    for (var i = 0; i < temp.children.length; i++) {
+                        this.queue.push(temp.children[i]);
+                    }
+                }
+            },
+            // 结果显示,用于改变遍历到节点的颜色
+            changeColor: function(node) {
+                node.style.background = "#00f";
+                setTimeout(function() {
+                    node.style.background = "#fff";
+                }, 1000);
+            },
+            // 结果显示,用于改变遍历到节点的颜色
+            changeColorSearch: function(node) {
+                node.style.background = "#f00";
+                setTimeout(function() {
+                    node.style.background = "#fff";
+                }, 1000);
+            },
+            visitNode: function(value) {
+                var stack = this.stack;
+                var changeColor = this.changeColor;
+                var changeColorSearch = this.changeColorSearch;
+                //每隔1s,取出stack中的第一个节点,改变其颜色
+                var id = setInterval(function() {
+                    if (stack.length == 0) {
+                        clearInterval(id);
+                        flag = true;
+                        return;
+                    }
+                    // 用于判断节点的文本信息是否和输入框内的内容相一致
+                    if (stack[0].innerText.split('\n')[0] == value) {
+                        changeColorSearch(stack[0]);
+                        stack.shift();
+                    } else {
+                        changeColor(stack[0]);
+                        stack.shift();
+                    }
+
+                }, 1000);
+            }
+        }
+        var root = document.querySelector(".root");
+        var node;
+        var btn_breadth = document.querySelector("#breadth"),
+            btn_depth = document.querySelector("#depth"),
+            input = document.querySelector('.search input'),
+            input_insert = document.querySelector('.insert input'),
+            btn_add = document.querySelector('#add'),
+            btn_remove = document.querySelector('#remove');
+        // 在遍历过程中,加"锁",防止点击按钮开始新的遍历
+        var flag = true;
+        var node_flag = true;
+        // 给相应的button添加事件处理函数
+        btn_depth.addEventListener("click", function() {
+            if (flag) {
+                var value = input.value;
+                flag = false;
+                var tree = new Tree();
+                tree.depthFirst(root);
+                tree.visitNode(value);
+                input.value = "";
+            }
+
+        });
+        btn_breadth.addEventListener("click", function() {
+            if (flag) {
+                var value = input.value;
+                flag = false;
+                var tree = new Tree();
+                tree.breadthFirst(root);
+                tree.visitNode(value);
+                input.value = "";
+            }
+
+        });
+        root.addEventListener("click", function(event) {
+            if (node_flag && flag) {
+                node = event.target;
+                node_flag = false;
+                node.style.background = "#ff0";
+            }
+        });
+        btn_add.addEventListener("click", function() {
+            if (!flag) {
+                alert("请等待遍历结束后再进行操作!");
+                return;
+            }
+            if (!node) {
+                alert("请选择要插入的节点!");
+                return;
+            }
+            var newNodeContent = input_insert.value;
+            if (newNodeContent == "") {
+                alert("请输入要插入的节点内容!");
+                return;
+            }
+            var newNode = document.createElement("div");
+            newNode.innerText = newNodeContent;
+            node.append(newNode);
+            node.style.background = "#fff";
+            input_insert.value = "";
+            node_flag = true;
+        });
+        btn_remove.addEventListener("click", function() {
+            if (!flag) {
+                alert("请等待遍历结束后再进行操作!");
+                return;
+            }
+            if (!node) {
+                alert("请选择要移除的节点!");
+                return;
+            }
+            var parentNode = node.parentNode;
+            parentNode.removeChild(node);
+            node = null;
+            node_flag = true;
+        })
+    </script>
+</body>
+
+</html>
