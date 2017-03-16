@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务八：JavaScript和树</title>
+    <style>
+        div {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 5px;
+            border: solid 1px #000;
+            margin: 0 5px;
+            background: #fff;
+            font-size: 15px;
+        }
+        
+        .root {
+            float: left;
+        }
+        
+        .leaf {
+            height: 20px;
+        }
+        
+        .search {
+            border: 0;
+            padding-top: 20px;
+            clear: both;
+        }
+        
+        .order {
+            border: 0;
+            width: 600px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .order button {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .other {
+            height: 44px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        Super
+        <div>
+            animal
+            <div>
+                human
+                <div class="leaf">Chinese</div>
+                <div class="leaf">American</div>
+                <div class="leaf">Japanese</div>
+                <div class="leaf">Britisher</div>
+            </div>
+            <div>
+                poultry
+                <div class="leaf">chicken</div>
+                <div class="leaf">duck</div>
+            </div>
+            <div>
+                mammal
+                <div class="leaf">dog</div>
+                <div class="leaf">cat</div>
+                <div class="leaf">tiger</div>
+            </div>
+        </div>
+        <div>
+            plant
+            <div>
+                fruit
+                <div class="leaf">apple</div>
+                <div class="leaf">pear</div>
+                <div class="leaf">banana</div>
+            </div>
+            <div>
+                vegetable
+                <div class="leaf">carrot</div>
+                <div class="leaf">potato</div>
+                <div class="leaf">tomato</div>
+            </div>
+        </div>
+        <div class="other">other</div>
+    </div>
+    <div class="search">
+        请输入要查询的节点:<input type="text">
+    </div>
+    <div class="order">
+        <button id="breadth">广度优先遍历</button>
+        <button id="depth">深度优先遍历</button>
+    </div>
+    <script>
+        function Tree() {
+            this.stack = [];
+            this.queue = [];
+            this.track = 0;
+        }
+        Tree.prototype = {
+            constructor: Tree,
+            depthFirst: function(node) {
+                this.stack.push(node);
+                for (var i = 0; i < node.children.length; i++) {
+                    this.stack.push(node.children[i]);
+                    this.depthFirst(node.children[i]);
+                }
+            },
+            breadthFirst: function(node) {
+                this.queue.push(node);
+                while (this.queue.length > 0) {
+                    var temp = this.queue.shift(node);
+                    this.stack.push(temp);
+                    for (var i = 0; i < temp.children.length; i++) {
+                        this.queue.push(temp.children[i]);
+                    }
+                }
+            },
+            changeColor: function(node) {
+                node.style.background = "#00f";
+                setTimeout(function() {
+                    node.style.background = "#fff";
+                }, 1000);
+            },
+            changeColorSearch: function(node) {
+                node.style.background = "#f00";
+                setTimeout(function() {
+                    node.style.background = "#fff";
+                }, 1000);
+            },
+            visitNode: function(value) {
+                var stack = this.stack;
+                var changeColor = this.changeColor;
+                var changeColorSearch = this.changeColorSearch;
+                var id = setInterval(function() {
+                    if (stack.length == 0) {
+                        clearInterval(id);
+                        flag = true;
+                        return;
+                    }
+                    if (stack[0].innerText.split('\n')[0] == value) {
+                        changeColorSearch(stack[0]);
+                        stack.shift();
+                    } else {
+                        changeColor(stack[0]);
+                        stack.shift();
+                    }
+
+                }, 1000);
+            }
+        }
+        var root = document.querySelector(".root");
+        var btn_breadth = document.querySelector("#breadth"),
+            btn_depth = document.querySelector("#depth"),
+            input = document.querySelector('.search input');
+        var flag = true;
+        btn_depth.addEventListener("click", function() {
+            if (flag) {
+                var value = input.value;
+                flag = false;
+                var tree = new Tree();
+                tree.depthFirst(root);
+                tree.visitNode(value);
+                input.value = "";
+            }
+
+        });
+        btn_breadth.addEventListener("click", function() {
+            if (flag) {
+                var value = input.value;
+                flag = false;
+                var tree = new Tree();
+                tree.breadthFirst(root);
+                tree.visitNode(value);
+                input.value = "";
+            }
+
+        });
+    </script>
+</body>
+
+</html>
