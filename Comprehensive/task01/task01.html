@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务一:单个表单项的检验</title>
+    <style>
+        body,
+        div,
+        p,
+        input,
+        span {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .form-item {
+            width: 520px;
+            margin: 50px auto;
+        }
+        
+        .form-item:after {
+            content: '';
+            display: block;
+            clear: both;
+            text-align: center;
+        }
+        
+        .form-item>span {
+            float: left;
+            display: inline-block;
+            height: 2em;
+            width: 4em;
+            text-align: center;
+            line-height: 2;
+            cursor: pointer;
+        }
+        
+        .form-item>.get-input {
+            float: left;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .form-item>.get-input>input {
+            font-size: 1em;
+            height: 2em;
+            width: 20em;
+            line-height: 2;
+            border: 1px solid #999;
+            border-radius: 0.2em;
+        }
+        
+        .form-item>.get-input>p {
+            color: #999;
+        }
+        
+        .form-item .name {
+            color: #000;
+            margin: 0 10px;
+        }
+        
+        .form-item .test {
+            color: #fff;
+            background: #06f;
+            border: 1px solid #03f;
+            border-radius: 0.2em;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-item">
+            <span class="name">名称</span>
+            <div class="get-input">
+                <input type="text">
+                <p>必填,长度为4~16个字符</p>
+            </div>
+            <span class="test">验证</span>
+        </div>
+    </div>
+    <script>
+        var btn_test = document.querySelector('.form-item .test');
+        var input = document.querySelector('.form-item>.get-input>input');
+        var txt_info = document.querySelector('.form-item>.get-input>p');
+        btn_test.addEventListener("click", function(event) {
+            var value = input.value;
+            var len = 0;
+            if (!value) {
+                input.style.border = "1px solid #f00";
+                txt_info.innerText = "姓名不能为空";
+                txt_info.style.color = "#f00";
+                return;
+            }
+            for (var i = 0; i < value.length; i++) {
+                var a = value.charAt(i);
+                if (a.match(/[^\x00-\xff]/ig) != null) {
+                    len += 2;
+                } else {
+                    len++;
+                }
+            }
+            if (len >= 4 && len <= 16) {
+                input.style.border = "1px solid #0f0";
+                txt_info.innerText = "名称格式正确";
+                txt_info.style.color = "#0f0";
+            } else if (len > 16) {
+                input.style.border = "1px solid #f00";
+                input.value = '';
+                txt_info.innerText = "名称超过规定长度,请重新设定";
+                txt_info.style.color = "#f00";
+            } else {
+                input.style.border = "1px solid #f00";
+                input.value = '';
+                txt_info.innerText = "名称过短,请重新设定";
+                txt_info.style.color = "#f00";
+            }
+        });
+        input.addEventListener("click", function(event) {
+            input.style.border = "1px solid #999";
+            txt_info.innerText = "必填,长度为4~16个字符";
+            txt_info.style.color = "#999";
+        })
+    </script>
+</body>
+
+</html>
