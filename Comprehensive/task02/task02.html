@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务二:多个表单项的动态检验</title>
+    <style>
+        body,
+        div,
+        p,
+        input,
+        span {
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        .container li {
+            width: 430px;
+            margin: 25px auto;
+        }
+        
+        .form-item:after {
+            content: '';
+            display: block;
+            clear: both;
+            text-align: center;
+        }
+        
+        .form-item>span {
+            float: left;
+            height: 2em;
+            width: 4em;
+            text-align: center;
+            line-height: 2;
+        }
+        
+        .form-item>.get-input {
+            float: left;
+            margin: 0 10px;
+        }
+        
+        .form-item>.get-input>input {
+            font-size: 1em;
+            height: 2em;
+            width: 20em;
+            line-height: 2;
+            border: 1px solid #999;
+            border-radius: 0.2em;
+        }
+        
+        .form-item>.get-input>p {
+            color: #999;
+            visibility: hidden;
+        }
+        
+        .form-item>span {
+            color: #000;
+            margin: 0 10px;
+            text-align: right;
+        }
+        
+        .form-test {
+            text-align: right;
+        }
+        
+        .form-test .test {
+            display: inline-block;
+            height: 2em;
+            width: 4em;
+            text-align: center;
+            line-height: 2;
+            color: #fff;
+            background: #06f;
+            border: 1px solid #03f;
+            border-radius: 0.2em;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul>
+            <li class="form-item">
+                <span class="name">名称</span>
+                <div class="get-input">
+                    <input type="text" name="name">
+                    <p>必填,长度为4~16个字符</p>
+                </div>
+            </li>
+            <li class="form-item">
+                <span class="password">密码</span>
+                <div class="get-input">
+                    <input type="password" name="password">
+                    <p>必填,6~16个字符，区分大小写</p>
+                </div>
+            </li>
+            <li class="form-item">
+                <span class="repassword">密码确认</span>
+                <div class="get-input">
+                    <input type="password" name="repassword">
+                    <p>请再次输入密码</p>
+                </div>
+            </li>
+            <li class="form-item">
+                <span class="email">邮箱</span>
+                <div class="get-input">
+                    <input type="text" name="email">
+                    <p>请输入邮箱帐号</p>
+                </div>
+            </li>
+            <li class="form-item">
+                <span class="phone">手机</span>
+                <div class="get-input">
+                    <input type="text" name="phone">
+                    <p>请输入手机号</p>
+                </div>
+            </li>
+            <li class="form-test">
+                <span class="test">验证</span>
+            </li>
+        </ul>
+
+    </div>
+    <script>
+        // 定义验证表单类
+        function FormValidate(container) {
+            this.flag_name = false;
+            this.flag_pass = false;
+            this.flag_repass = false;
+            this.flag_email = false;
+            this.flag_phone = false;
+            this.form_container = container.querySelector('.container>ul');
+            this.btn_test = container.querySelector('.form-test .test');
+
+        }
+        FormValidate.prototype = {
+            constructor: FormValidate,
+            testName: function(node) {
+                var value = node.value;
+                var nextNode = node.nextElementSibling;
+                var len = 0;
+                if (!value) {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "姓名不能为空";
+                    nextNode.style.color = "#f00";
+                    this.flag_name = false;
+                    return;
+                }
+                for (var i = 0; i < value.length; i++) {
+                    var a = value.charAt(i);
+                    if (a.match(/[^\x00-\xff]/ig) != null) {
+                        len += 2;
+                    } else {
+                        len++;
+                    }
+                }
+                if (len >= 4 && len <= 16) {
+                    node.style.border = "1px solid #0f0";
+                    nextNode.innerText = "名称格式正确";
+                    nextNode.style.color = "#0f0";
+                    this.flag_name = true;
+                    return;
+                } else if (len > 16) {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "名称超过规定长度,请重新设定";
+                    nextNode.style.color = "#f00";
+                    this.flag_name = false;
+                    return;
+                } else {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "名称过短,请重新设定";
+                    nextNode.style.color = "#f00";
+                    this.flag_name = false;
+                    return;
+                }
+            },
+
+            testPassword: function(node) {
+                var value = node.value;
+                var nextNode = node.nextElementSibling;
+                if (value.length < 6 || value.length > 16) {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "密码长度不符合要求,请重新设定密码";
+                    nextNode.style.color = "#f00";
+                    this.flag_pass = false;
+                    return;
+                } else {
+                    node.style.border = "1px solid #0f0";
+                    nextNode.innerText = "密码可用";
+                    nextNode.style.color = "#0f0";
+                    this.flag_pass = true;
+                    return;
+                }
+            },
+
+            testRePassword: function(node) {
+                var value = node.value;
+                var nextNode = node.nextElementSibling;
+                var password = node.parentElement.parentElement.previousElementSibling.querySelector('.form-item input').value;
+                if (value.length < 6 || value.length > 16) {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "密码长度不符合要求,请重新设定密码";
+                    nextNode.style.color = "#f00";
+                    this.flag_repass = false;
+                    return;
+                }
+                if (value == password) {
+                    node.style.border = "1px solid #0f0";
+                    nextNode.innerText = "密码输入一致";
+                    nextNode.style.color = "#0f0";
+                    this.flag_repass = true;
+                    return;
+                } else {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "密码输入不一致";
+                    nextNode.style.color = "#f00";
+                    this.flag_repass = false;
+                    return;
+                }
+            },
+
+            testEmail: function(node) {
+                var value = node.value;
+                var nextNode = node.nextElementSibling;
+                var regx = /^[0-9a-zA-Z][0-9a-zA-Z_]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]+/g;
+                if (regx.test(value)) {
+                    node.style.border = "1px solid #0f0";
+                    nextNode.innerText = "邮箱格式正确";
+                    nextNode.style.color = "#0f0";
+                    this.flag_email = true;
+                    return;
+                } else {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "邮箱格式错误,请重新输入";
+                    nextNode.style.color = "#f00";
+                    this.flag_email = false;
+                    return;
+                }
+            },
+
+            testPhone: function(node) {
+                var value = node.value;
+                var nextNode = node.nextElementSibling;
+                if (value.length != 11 && value[0] != '1') {
+                    node.style.border = "1px solid #f00";
+                    nextNode.innerText = "请输入正确的手机号";
+                    nextNode.style.color = "#f00";
+                    this.flag_phone = false;
+                    return;
+                } else {
+                    node.style.border = "1px solid #0f0";
+                    nextNode.innerText = "手机格式正确";
+                    nextNode.style.color = "#0f0";
+                    this.flag_phone = true;
+                    return;
+                }
+            },
+            // 绑定事件
+            bind: function() {
+                var _this = this;
+                // input第一次获取焦点时,显示提示信息
+                this.form_container.addEventListener("click", function(event) {
+                    var click_node = event.target;
+                    if (event.target.tagName.toLowerCase() == "input") {
+                        var nextNode = click_node.nextElementSibling;
+                        nextNode.style.visibility = "visible";
+                    }
+                });
+                // input失去焦点时,对其输入值进行判断
+                this.form_container.addEventListener("blur", function(event) {
+                    var blur_node = event.target;
+                    if (blur_node.tagName.toLowerCase() == "input") {
+                        // 判断该节点是哪一项的input
+                        // 然后再进行处理
+                        if (blur_node.name == "name") {
+                            _this.testName(blur_node);
+                        } else if (blur_node.name == "password") {
+                            _this.testPassword(blur_node);
+                        } else if (blur_node.name == "repassword") {
+                            _this.testRePassword(blur_node);
+                        } else if (blur_node.name == "email") {
+                            _this.testEmail(blur_node);
+                        } else if (blur_node.name == "phone") {
+                            _this.testPhone(blur_node);
+                        }
+                    }
+                }, true);
+                // 当点击验证时,判断是否验证成功
+                this.btn_test.addEventListener("click", function(event) {
+                    if (_this.flag_name && _this.flag_pass && _this.flag_repass && _this.flag_email && _this.flag_phone) {
+                        alert("验证成功");
+                    } else {
+                        alert("输入有误!");
+                    }
+                })
+            }
+        }
+        var container = document.querySelector('.container');
+        var validateForm = new FormValidate(container);
+        validateForm.bind();
+        /*
+        var flag_name = false,
+            flag_pass = false,
+            flag_repass = false,
+            flag_email = false,
+            flag_phone = false;
+        var form_container = document.querySelector('.container>ul');
+        var btn_test = document.querySelector('.form-test .test');
+        // 事件处理程序由ul代理,根据event.target来判断到底是哪个节点上产生了事件
+        form_container.addEventListener("click", function(event) {
+            var click_node = event.target;
+            if (event.target.tagName.toLowerCase() == "input") {
+                var nextNode = click_node.nextElementSibling;
+                nextNode.style.visibility = "visible";
+            }
+        });
+
+        function testName(node) {
+            var value = node.value;
+            var nextNode = node.nextElementSibling;
+            var len = 0;
+            if (!value) {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "姓名不能为空";
+                nextNode.style.color = "#f00";
+                flag_name = false;
+                return;
+            }
+            for (var i = 0; i < value.length; i++) {
+                var a = value.charAt(i);
+                if (a.match(/[^\x00-\xff]/ig) != null) {
+                    len += 2;
+                } else {
+                    len++;
+                }
+            }
+            if (len >= 4 && len <= 16) {
+                node.style.border = "1px solid #0f0";
+                nextNode.innerText = "名称格式正确";
+                nextNode.style.color = "#0f0";
+                flag_name = true;
+                return;
+            } else if (len > 16) {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "名称超过规定长度,请重新设定";
+                nextNode.style.color = "#f00";
+                flag_name = false;
+                return;
+            } else {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "名称过短,请重新设定";
+                nextNode.style.color = "#f00";
+                flag_name = false;
+                return;
+            }
+        }
+
+        function testPassword(node) {
+            var value = node.value;
+            var nextNode = node.nextElementSibling;
+            if (value.length < 6 || value.length > 16) {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "密码长度不符合要求,请重新设定密码";
+                nextNode.style.color = "#f00";
+                flag_pass = false;
+                return;
+            } else {
+                node.style.border = "1px solid #0f0";
+                nextNode.innerText = "密码可用";
+                nextNode.style.color = "#0f0";
+                flag_pass = true;
+                return;
+            }
+        }
+
+        function testRePassword(node) {
+            var value = node.value;
+            var nextNode = node.nextElementSibling;
+            var password = node.parentElement.parentElement.previousElementSibling.querySelector('.form-item input').value;
+            if (value.length < 6 || value.length > 16) {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "密码长度不符合要求,请重新设定密码";
+                nextNode.style.color = "#f00";
+                flag_repass = false;
+                return;
+            }
+            if (value == password) {
+                node.style.border = "1px solid #0f0";
+                nextNode.innerText = "密码输入一致";
+                nextNode.style.color = "#0f0";
+                flag_repass = true;
+                return;
+            } else {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "密码输入不一致";
+                nextNode.style.color = "#f00";
+                flag_repass = false;
+                return;
+            }
+        }
+
+        function testEmail(node) {
+            var value = node.value;
+            var nextNode = node.nextElementSibling;
+            var regx = /^[0-9a-zA-Z][0-9a-zA-Z_]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]+/g;
+            if (regx.test(value)) {
+                node.style.border = "1px solid #0f0";
+                nextNode.innerText = "邮箱格式正确";
+                nextNode.style.color = "#0f0";
+                flag_email = true;
+                return;
+            } else {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "邮箱格式错误,请重新输入";
+                nextNode.style.color = "#f00";
+                flag_email = false;
+                return;
+            }
+        }
+
+        function testPhone(node) {
+            var value = node.value;
+            var nextNode = node.nextElementSibling;
+            if (value.length != 11 && value[0] != '1') {
+                node.style.border = "1px solid #f00";
+                nextNode.innerText = "请输入正确的手机号";
+                nextNode.style.color = "#f00";
+                flag_phone = false;
+                return;
+            } else {
+                node.style.border = "1px solid #0f0";
+                nextNode.innerText = "手机格式正确";
+                nextNode.style.color = "#0f0";
+                flag_phone = true;
+                return;
+            }
+        }
+        // 事件处理程序由ul代理,根据event.target来判断到底是哪个节点上产生了事件
+        form_container.addEventListener("blur", function(event) {
+            var blur_node = event.target;
+            if (blur_node.tagName.toLowerCase() == "input") {
+                // 判断该节点是哪一项的input
+                // 然后再进行处理
+                if (blur_node.name == "name") {
+                    testName(blur_node);
+                } else if (blur_node.name == "password") {
+                    testPassword(blur_node);
+                } else if (blur_node.name == "repassword") {
+                    testRePassword(blur_node);
+                } else if (blur_node.name == "email") {
+                    testEmail(blur_node);
+                } else if (blur_node.name == "phone") {
+                    testPhone(blur_node);
+                }
+            }
+        }, true);
+
+        btn_test.addEventListener("click", function(event) {
+            if (flag_name && flag_pass && flag_repass && flag_email && flag_phone) {
+                alert("验证成功");
+            } else {
+                alert("输入有误!");
+            }
+        })
+        */
+    </script>
+</body>
+
+</html>
