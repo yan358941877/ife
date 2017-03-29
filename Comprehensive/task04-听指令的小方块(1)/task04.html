@@ -247,14 +247,14 @@
     </div>
     <script>
         function Box(container) {
-            // "东南西北"--->"0,1,2,3"
-            this.container = container;
 
+            this.container = container;
+            // "北 南 西 东"--->"0,1,2,3"
             this.directionArray = [
-                [2, 3, 1], // 面向东时,分别向左右后转对应的方向
-                [3, 2, 0],
-                [1, 0, 3],
-                [0, 1, 2]
+                [2, 3, 1], // 面向北时,分别向左右后转对应的方向
+                [3, 2, 0], // 面向南时,分别向左右后转对应的方向
+                [1, 0, 3], // 面向西时,分别向左右后转对应的方向
+                [0, 1, 2] // 面向东时,分别向左右后转对应的方向
             ]
             this.direction = 1; // 下
             this.x = 0;
@@ -264,6 +264,7 @@
             constructor: Box,
             createBox: function(direction) {
                 var node = document.createElement("div");
+                // 根据当前的方向创建box
                 if (direction == 0) {
                     node.classList.add("box");
                     node.classList.add("north");
@@ -291,6 +292,7 @@
                 this.container.children[this.y * 10 + this.x].append(newBox);
             },
             go: function() {
+                // 根据box的方向和位置,变换方向
                 this.container.children[this.y * 10 + this.x].firstChild.remove();
                 if (this.direction == 0) {
                     if (this.y > 0) {
@@ -330,7 +332,9 @@
                 this.direction = this.directionArray[this.direction][0];
                 //移除当前box
                 this.container.children[this.y * 10 + this.x].firstChild.remove();
+                // 根据当前box的方向新建一个box
                 var newBox = this.createBox(this.direction);
+                // 将该box插入到 "棋盘中"
                 this.container.children[this.y * 10 + this.x].append(newBox);
 
                 //新建box
