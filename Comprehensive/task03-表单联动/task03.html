@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务三:表单联动</title>
+    <style>
+        body,
+        div,
+        input,
+        label,
+        span,
+        select,
+        option {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .status {
+            width: 60%;
+            margin: 30px auto;
+            text-align: center;
+        }
+        
+        .status>span {
+            display: inline-block;
+            width: 40%;
+        }
+        
+        .school,
+        .company {
+            margin: 30px;
+            display: none;
+        }
+        
+        .school span {
+            display: inline-block;
+            width: 15%;
+            text-align: center;
+        }
+        
+        .school #area {
+            width: 35%;
+            height: 2em;
+            line-height: 2;
+            background: #fff;
+            border: 1px solid #bbb;
+            border-radius: 0.3em;
+        }
+        
+        .school #school-name {
+            width: 45%;
+            height: 2em;
+            line-height: 2;
+            background: #fff;
+            border: 1px solid #bbb;
+            border-radius: 0.3em;
+        }
+        
+        .company span {
+            display: inline-block;
+            width: 15%;
+            text-align: center;
+        }
+        
+        .company input {
+            width: 80%;
+            height: 2em;
+            line-height: 2;
+            background: #fff;
+            border: 1px solid #bbb;
+            border-radius: 0.3em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="status">
+        <span>
+        <input type="radio" name="status" value="0" id="student" >
+        <label for="student">在校生</label>
+        </span>
+        <span>
+        <input type="radio" name="status" value="1" id="nostudent">
+        <label for="nostudent">非在校生</label>
+        </span>
+        <div class="school">
+            <span>学校</span>
+            <select name="area" id="area">
+                <option value="浙江">浙江</option>
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广东">广东</option>
+                <option value="江苏">江苏</option>
+            </select>
+            <select name="school" id="school-name">
+                <option value="浙江大学">浙江大学</option>
+            </select>
+        </div>
+        <div class="company">
+            <span>公司</span>
+            <input type="text">
+        </div>
+    </div>
+    <script>
+        function PersonStatus(container) {
+            this.container = container;
+        }
+        PersonStatus.prototype = {
+            constructor: PersonStatus,
+        }
+        var area_school = {
+            '北京': ['北京大学', '中国人民大学', '清华大学', '北京交通大学', '北京科技大学', '北京邮电大学', '北京化工大学', '中国农业大学', '北京理工大学', '中央财经大学', '中央民族大学'],
+            '上海': ['复旦大学', '上海交通大学', '上海财经大学', '同济大学', '华东师范', '华东理工'],
+            '广东': ['中山大学', '华南理工大学', '暨南大学', '华南师范大学', '华南农业大学'],
+            '浙江': ['浙江大学'],
+            '江苏': ['南京大学', '东南大学', '南京理工大学']
+        }
+        var container = document.querySelector('.status');
+        var radio_stu = document.querySelector('#student');
+        var radio_nostu = document.querySelector('#nostudent');
+        var div_school = document.querySelector('.school');
+        var div_company = document.querySelector('.company');
+        var select_area = document.querySelector('#area');
+        var select_school = document.querySelector('#school-name');
+
+        radio_stu.addEventListener("click", function() {
+            div_school.style.display = 'block';
+            div_company.style.display = 'none';
+        });
+        radio_nostu.addEventListener("click", function() {
+            div_school.style.display = 'none';
+            div_company.style.display = 'block';
+        });
+        select_area.addEventListener("change", function(event) {
+            for (var i = select_school.childElementCount - 1; i >= 0; i--) {
+                select_school.removeChild(select_school.lastElementChild);
+            }
+            var value_area = select_area.value;
+            area_school[value_area].forEach(function(school_name) {
+                //console.log(school_name);
+                var node = document.createElement('option');
+                node.innerText = school_name;
+                node.setAttribute('value', school_name);
+                select_school.appendChild(node);
+            });
+            var node = document.createElement('option');
+            select_school.insertBefore(node, select_school.firstElementChild)
+        })
+    </script>
+</body>
+
+</html>
