@@ -87,6 +87,7 @@
         <div class="school">
             <span>学校</span>
             <select name="area" id="area">
+                <option value="0"></option>
                 <option value="浙江">浙江</option>
                 <option value="北京">北京</option>
                 <option value="上海">上海</option>
@@ -94,6 +95,7 @@
                 <option value="江苏">江苏</option>
             </select>
             <select name="school" id="school-name">
+                <option value="0" selected></option>
                 <option value="浙江大学">浙江大学</option>
             </select>
         </div>
@@ -133,10 +135,17 @@
             div_company.style.display = 'block';
         });
         select_area.addEventListener("change", function(event) {
+            // 判断是否是空节点
+            if (select_area.value == 0) {
+                return;
+            }
+            // 移除当前selection中所有的option节点
             for (var i = select_school.childElementCount - 1; i >= 0; i--) {
                 select_school.removeChild(select_school.lastElementChild);
             }
+            // 获取当前所选中的城市
             var value_area = select_area.value;
+            // 获取当前城市所有的大学,并在学校selection中插入各个学校对应的option
             area_school[value_area].forEach(function(school_name) {
                 //console.log(school_name);
                 var node = document.createElement('option');
@@ -145,6 +154,7 @@
                 select_school.appendChild(node);
             });
             var node = document.createElement('option');
+            node.selected = true;
             select_school.insertBefore(node, select_school.firstElementChild)
         })
     </script>
