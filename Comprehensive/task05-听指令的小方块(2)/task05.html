@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>听指令的小方块</title>
+    <style>
+        body,
+        div,
+        ul,
+        li {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .axis-container {
+            width: 370px;
+        }
+        
+        li {
+            list-style: none;
+            width: 2em;
+            height: 2em;
+            line-height: 2;
+            text-align: center;
+            border: 1px solid #fff;
+        }
+        
+        .x-axis li,
+        .y-axis,
+        .position {
+            float: left;
+        }
+        
+        .position {
+            float: left;
+            width: 336px;
+        }
+        
+        .position li {
+            float: left;
+            border: 1px solid #aaa;
+        }
+        
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+        
+        .box {
+            width: 2em;
+            height: 2em;
+        }
+        
+        .south>.part01 {
+            width: 100%;
+            height: 80%;
+            background: red;
+        }
+        
+        .south>.part02 {
+            width: 100%;
+            height: 20%;
+            background: blue;
+        }
+        
+        .north>.part01 {
+            width: 100%;
+            height: 20%;
+            background: blue;
+        }
+        
+        .north>.part02 {
+            width: 100%;
+            height: 80%;
+            background: red;
+        }
+        
+        .west>.part01 {
+            float: left;
+            width: 20%;
+            height: 100%;
+            background: blue;
+        }
+        
+        .west>.part02 {
+            float: left;
+            width: 80%;
+            height: 100%;
+            background: red;
+        }
+        
+        .east>.part01 {
+            float: right;
+            width: 20%;
+            height: 100%;
+            background: blue;
+        }
+        
+        .east>.part02 {
+            float: right;
+            width: 80%;
+            height: 100%;
+            background: red;
+        }
+        
+        .operation {
+            margin: 20px 30px;
+        }
+        
+        .cmd {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="axis-container clearfix">
+        <ul class="x-axis clearfix">
+            <li></li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+        <ul class="y-axis">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+        <ul class="position clearfix">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="operation">
+        <input type="text">
+        <button>执行</button>
+    </div>
+    <div class="basic-cmd">
+        <button>GO</button>
+        <button>TUN LEF</button>
+        <button>TUN RIG</button>
+        <button>TUN BAC</button>
+    </div>
+    <div class="cmd">
+        <button class="tra_lef">TRA LEF</button>
+        <button class="tra_top">TRA TOP</button>
+        <button class="tra_rig">TRA RIG</button>
+        <button class="tra_bot">TRA BOT</button>
+        <button class="mov-lef">MOV LEF</button>
+        <button class="mov-top">MOV TOP</button>
+        <button class="mov-rig">MOV RIG</button>
+        <button class="mov-bot">MOV BOT</button>
+    </div>
+    <script>
+        function Box(container) {
+
+            this.container = container;
+            this.degree = 0;
+            // "北 南 西 东"--->"0,1,2,3"
+            this.directionArray = [
+                [2, 3, 1], // 面向北时,分别向左右后转对应的方向
+                [3, 2, 0], // 面向南时,分别向左右后转对应的方向
+                [1, 0, 3], // 面向西时,分别向左右后转对应的方向
+                [0, 1, 2] // 面向东时,分别向左右后转对应的方向
+            ]
+            this.direction = 2; // 下
+            this.x = 0;
+            this.y = 0;
+        }
+        Box.prototype = {
+            constructor: Box,
+            createBox: function(direction) {
+                var node = document.createElement("div");
+                // 根据当前的方向创建box
+                if (direction == 0) {
+                    node.classList.add("box");
+                    node.classList.add("north");
+                    node.innerHTML = '<div class="part01"></div><div class="part02"></div>';
+                    return node;
+                } else if (direction == 1) {
+                    node.classList.add("box");
+                    node.classList.add("south");
+                    node.innerHTML = '<div class="part01"></div><div class="part02"></div>';
+                    return node;
+                } else if (direction == 2) {
+                    node.classList.add("box");
+                    node.classList.add("west");
+                    node.innerHTML = '<div class="part01"></div><div class="part02"></div>';
+                    return node;
+                } else {
+                    node.classList.add("box");
+                    node.classList.add("east");
+                    node.innerHTML = '<div class="part01"></div><div class="part02"></div>';
+                    return node;
+                }
+            },
+            init: function() {
+                // if (this.container.children[this.y * 10 + this.x].firstElementChild) {
+                //     this.container.children[this.y * 10 + this.x].firstElementChild.remove();
+                //     //console.log(this.container.children[this.y * 10 + this.x].firstChild);
+                // }
+                var newBox = this.createBox(this.direction);
+                this.container.children[this.y * 10 + this.x].append(newBox);
+            },
+            go: function() {
+                // 根据box的方向和位置,变换方向
+                this.container.children[this.y * 10 + this.x].firstChild.remove();
+                if (this.direction == 0) {
+                    if (this.y > 0) {
+                        this.y--;
+                    } else {
+                        alert('已经到达边界');
+                    }
+
+                } else if (this.direction == 1) {
+                    if (this.y < 9) {
+                        this.y++;
+                    } else {
+                        alert('已经到达边界');
+                    }
+
+                } else if (this.direction == 2) {
+                    if (this.x > 0) {
+                        this.x--;
+                    } else {
+                        alert('已经到达边界');
+                    }
+
+                } else if (this.direction == 3) {
+                    if (this.x < 9) {
+                        this.x++;
+                    } else {
+                        alert('已经到达边界');
+                    }
+                }
+
+                var newBox = this.createBox(this.direction);
+                this.container.children[this.y * 10 + this.x].append(newBox);
+
+            },
+            // turnLeft: function() {
+            //     this.direction = this.directionArray[this.direction][0];
+            //     this.degree -= 90;
+            //     this.container.children[this.y * 10 + this.x].firstChild.style.transform = 'rotate(' + this.degree + 'deg)';
+            // },
+            // turnRight: function() {
+            //     // 不移动,向右转
+            //     this.direction = this.directionArray[this.direction][1];
+            //     this.degree += 90;
+            //     this.container.children[this.y * 10 + this.x].firstChild.style.transform = 'rotate(' + this.degree + 'deg)';
+            // },
+            // turnBack: function() {
+            //     // 不移动,向后转
+            //     this.direction = this.directionArray[this.direction][2];
+            //     this.degree += 180;
+            //     this.container.children[this.y * 10 + this.x].firstChild.style.transform = 'rotate(' + this.degree + 'deg)';
+            // }
+            turnLeft: function() {
+                // 不移动,向左转
+                this.direction = this.directionArray[this.direction][0];
+                //移除当前box
+                this.container.children[this.y * 10 + this.x].firstChild.remove();
+                // 根据当前box的方向新建一个box
+                var newBox = this.createBox(this.direction);
+                // 将该box插入到 "棋盘中"
+                this.container.children[this.y * 10 + this.x].append(newBox);
+
+                //新建box
+            },
+            turnRight: function() {
+                // 不移动,向右转
+                this.direction = this.directionArray[this.direction][1];
+                this.container.children[this.y * 10 + this.x].firstChild.remove();
+                var newBox = this.createBox(this.direction);
+                this.container.children[this.y * 10 + this.x].append(newBox);
+            },
+            turnBack: function() {
+                // 不移动,向后转
+                this.direction = this.directionArray[this.direction][2];
+                this.container.children[this.y * 10 + this.x].firstChild.remove();
+                var newBox = this.createBox(this.direction);
+                this.container.children[this.y * 10 + this.x].append(newBox);
+            }
+        }
+
+
+
+        var container = document.querySelector('.position');
+        var box = new Box(container);
+        box.init();
+
+        var operation_cmd = document.querySelector('.operation input');
+        var operation_do = document.querySelector('.operation button');
+        var btn_cmd_array = document.querySelectorAll('.cmd button');
+        var btn_basic_cmd = document.querySelectorAll('.basic-cmd button');
+
+        function doCMD() {
+            var cmd = operation_cmd.value;
+            if (!cmd) {
+                return;
+            }
+            if (cmd === "GO") {
+                box.go();
+            } else if (cmd == "TUN LEF") {
+                box.turnLeft();
+            } else if (cmd == "TUN RIG") {
+                box.turnRight();
+            } else if (cmd == "TUN BAC") {
+                box.turnBack();
+            } else if (cmd == "TRA LEF") {
+                if (box.x > 0) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.x--;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "TRA TOP") {
+                if (box.y > 0) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.y--;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "TRA RIG") {
+                if (box.x < 9) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.x++;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "TRA BOT") {
+                if (box.y < 9) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.y++;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "MOV LEF") {
+                if (box.x > 0) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.x--;
+                    box.direction = 2;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "MOV TOP") {
+                if (box.y > 0) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.y--;
+                    box.direction = 0;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "MOV RIG") {
+                if (box.x < 10) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.x++;
+                    box.direction = 3;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            } else if (cmd == "MOV BOT") {
+                if (box.y < 9) {
+                    box.container.children[box.y * 10 + box.x].firstElementChild.remove();
+                    box.y++;
+                    box.direction = 1;
+                    box.init();
+                } else {
+                    alert('已经到达边界');
+                }
+            }
+        }
+        operation_do.addEventListener('click', doCMD);
+        btn_basic_cmd.item(0).addEventListener('click', function() {
+            operation_cmd.value = "GO";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_basic_cmd.item(1).addEventListener('click', function() {
+            operation_cmd.value = "TUN LEF";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_basic_cmd.item(2).addEventListener('click', function() {
+            operation_cmd.value = "TUN RIG";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_basic_cmd.item(3).addEventListener('click', function() {
+            operation_cmd.value = "TUN BAC";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(0).addEventListener('click', function() {
+            operation_cmd.value = "TRA LEF";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(1).addEventListener('click', function() {
+            operation_cmd.value = "TRA TOP";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(2).addEventListener('click', function() {
+            operation_cmd.value = "TRA RIG";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(3).addEventListener('click', function() {
+            operation_cmd.value = "TRA BOT";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(4).addEventListener('click', function() {
+            operation_cmd.value = "MOV LEF";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(5).addEventListener('click', function() {
+            operation_cmd.value = "MOV TOP";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(6).addEventListener('click', function() {
+            operation_cmd.value = "MOV RIG";
+            doCMD();
+            operation_cmd.value = "";
+        });
+        btn_cmd_array.item(7).addEventListener('click', function() {
+            operation_cmd.value = "MOV BOT";
+            doCMD();
+            operation_cmd.value = "";
+        });
+    </script>
+</body>
+
+</html>
