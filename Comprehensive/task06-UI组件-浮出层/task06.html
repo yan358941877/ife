@@ -47,6 +47,7 @@
         .info-box {
             position: fixed;
             min-width: 400px;
+            max-width: 500px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -64,6 +65,10 @@
         .info-box>.info-content {
             padding: 1em 0.5em;
             min-height: 100px;
+        }
+        
+        .info-box>.info-content p {
+            word-wrap: break-word;
         }
         
         .info-box>.info-operate {
@@ -169,12 +174,22 @@
                 this.info_box_no.addEventListener("click", function(event) {
                     _this.cancel();
                 });
+            },
+            // 设置控件的标题
+            setTitle: function(newTitle) {
+                var title = this.info_box.querySelector(".info-title h4");
+                title.innerText = newTitle;
+            },
+            // 设置控件内容
+            setContent: function(newContent) {
+                var content = this.info_box.querySelector(".info-content p");
+                content.innerText = newContent;
             }
         }
         var info_widget = document.querySelector("#info-01");
         var imgCT = document.querySelector(".image-container ul");
+        var info_box = new InfoWidget(info_widget);
         imgCT.addEventListener("click", function(event) {
-            var info_box = new InfoWidget(info_widget);
             var imgNode = event.target;
             if (imgNode.nodeName == "IMG") {
                 info_box.display();
