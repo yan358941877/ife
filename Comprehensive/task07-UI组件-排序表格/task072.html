@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务七：UI组件之排序表格</title>
+    <style>
+        body,
+        div,
+        table,
+        thead,
+        tbody,
+        tr,
+        td,
+        th {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .table-widget {
+            border-spacing: 0;
+            margin: 40px auto;
+        }
+        
+        .table-widget th {
+            width: 6em;
+            height: 2.5em;
+            line-height: 2.5em;
+            background: #444;
+            color: #fff;
+            border: 1px solid #aaa;
+            position: relative;
+        }
+        
+        .table-widget td {
+            width: 6em;
+            height: 2.5em;
+            line-height: 2.5em;
+            text-align: center;
+            border: 1px solid #aaa;
+            border-top: none;
+        }
+        
+        .table-widget .up {
+            display: inline-block;
+            border: 5px solid transparent;
+            border-bottom: 5px solid #fff;
+            position: absolute;
+            top: 0.3em;
+            right: 0.5em;
+            cursor: pointer;
+        }
+        
+        .table-widget .down {
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top: 5px solid #fff;
+            position: absolute;
+            bottom: 0.3em;
+            right: 0.5em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table-widget" id="table-widget-01">
+        <thead>
+            <tr>
+                <th name="col00">姓名</th>
+                <th name="col01">
+                    语文
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th name="col02">
+                    数学
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th name="col03">
+                    英语
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th name="col04">
+                    总分
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>小明</td>
+                <td>80</td>
+                <td>90</td>
+                <td>70</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td>小红</td>
+                <td>90</td>
+                <td>60</td>
+                <td>90</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td>小亮</td>
+                <td>60</td>
+                <td>100</td>
+                <td>70</td>
+                <td>230</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function Table() {
+            if (arguments.length != 0) {
+                this.table_widget = arguments[0];
+                this.upArray = this.table_widget.querySelectorAll(".up");
+                this.downArray = this.table_widget.querySelectorAll(".down");
+                this.table_body = this.table_widget.querySelector("tbody");
+                this.sortItem = 0;
+                this.sortFlag = true;
+                this.init();
+            } else {
+                this.table_widget = null;
+                this.upArray = null;
+                this.downArray = null;
+                this.table_body = null;
+                this.table_head = null;
+                this.sortItem = 0;
+                this.sortFlag = true;
+            }
+        }
+        Table.prototype = {
+            constructor: Table,
+            // 创建表格 必须传入一个由表头数据构成的参数 例如:"姓名 语文 数学 英语 总分 aa ddd  ccc    www"
+            create: function(headstr) {
+                this.table_widget = document.createElement("table");
+                this.table_widget.classList.add("table-widget");
+                this.table_widget.innerHTML = "<thead><tr></tr></thead><tbody></tbody>";
+                this.upArray = null;
+                this.downArray = null;
+                this.table_body = this.table_widget.querySelector("tbody");
+                this.table_head = this.table_widget.querySelector("thead tr");
+                this.sortItem = 0;
+                this.sortFlag = true;
+                var _this = this;
+                headstr = headstr.replace(/\s+/g, ' ');
+                var headArr = headstr.split(' ');
+                var i = 0;
+                headArr.forEach(function(headcontent) {
+                    var row = document.createElement('th');
+                    row.innerText = headcontent;
+                    if (i < 10) {
+                        row.setAttribute("name", "col0" + i);
+                    } else {
+                        row.setAttribute("name", "col" + i);
+                    }
+                    _this.table_head.appendChild(row);
+                    i++;
+                })
+                document.body.appendChild(this.table_widget);
+            },
+            // 指定哪些列可以进行排序
+            appointCols: function() {
+                for (var i = 0; i < arguments.length; i++) {
+                    var node_up = document.createElement("span");
+                    node_up.classList.add("up");
+                    var node_down = document.createElement("span");
+                    node_down.classList.add("down");
+                    this.table_head.children.item(arguments[i] - 1).appendChild(node_up);
+                    this.table_head.children.item(arguments[i] - 1).appendChild(node_down);
+                }
+            },
+            // 向表格中插入数据
+            insertData: function(rowData) {
+                var rownode = document.createElement('tr');
+                rowData = rowData.replace(/\s+/g, ' ');
+                var dataArr = rowData.split(' ');
+                dataArr.forEach(function(data) {
+                    var cell = document.createElement('td');
+                    cell.innerText = data;
+                    rownode.appendChild(cell);
+                });
+                this.table_body.appendChild(rownode);
+            },
+            init: function() {
+                this.upArray = this.table_widget.querySelectorAll(".up");
+                this.downArray = this.table_widget.querySelectorAll(".down");
+                var _this = this;
+                this.upArray.forEach(function(element) {
+                    element.addEventListener("click", function() {
+                        _this.sortItem = Number(this.parentElement.getAttribute('name').slice(3, 5));
+                        _this.sortFlag = true;
+                        _this.sortTable();
+                    });
+                });
+                this.downArray.forEach(function(element) {
+                    element.addEventListener("click", function() {
+                        _this.sortItem = Number(this.parentElement.getAttribute('name').slice(3, 5));
+                        _this.sortFlag = false;
+                        _this.sortTable();
+                    });
+                });
+            },
+
+            sortTable: function() {
+                // dataline指的是 数据 行,即从第二行开始的所有tr
+                var dataline = this.table_body.children;
+                if (this.sortFlag) { // 如果是升序的话 这里定义表格从下到上逐渐增大为 升序
+                    // 冒泡排序
+                    for (var i = 0; i < this.table_body.childElementCount - 1; i++) {
+                        for (var j = 1; j < this.table_body.childElementCount; j++) {
+                            // 第i行的第sortItem项 小于 第i行的第sortItem项
+                            // 则交换第i行和 第j行
+                            if (Number(dataline.item(i).children.item(this.sortItem).innerText) < Number(dataline.item(j).children.item(this.sortItem).innerText)) {
+                                var node = dataline.item(i).cloneNode(true);
+                                this.table_body.replaceChild(dataline.item(j).cloneNode(true), dataline.item(i));
+                                this.table_body.replaceChild(node, dataline.item(j));
+
+                            }
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < this.table_body.childElementCount - 1; i++) {
+                        for (var j = 1; j < this.table_body.childElementCount; j++) {
+                            if (Number(dataline.item(i).children.item(this.sortItem).innerText) > Number(dataline.item(j).children.item(this.sortItem).innerText)) {
+                                var node = dataline.item(i).cloneNode(true);
+                                this.table_body.replaceChild(dataline.item(j).cloneNode(true), dataline.item(i));
+                                this.table_body.replaceChild(node, dataline.item(j));
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var table_widget = document.querySelector("#table-widget-01");
+        var table = new Table(table_widget);
+
+        var tt = new Table();
+        tt.create("姓名 语文 数学 英语 总分 aa ddd  ccc    www");
+        tt.appointCols(2, 3, 4, 5);
+        tt.insertData("鑫 100 100 100 100 100 100 100 700");
+        tt.insertData("鑫 100 100 100 100 100 100 100 700");
+        tt.insertData("鑫 10 10 10 10 10 10 10 70");
+        tt.init();
+    </script>
+</body>
+
+</html>

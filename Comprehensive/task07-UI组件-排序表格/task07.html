@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务七：UI组件之排序表格</title>
+    <style>
+        body,
+        div,
+        table,
+        thead,
+        tbody,
+        tr,
+        td,
+        th {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .table-widget {
+            border-spacing: 0;
+            margin: 40px auto;
+        }
+        
+        .table-widget th {
+            width: 6em;
+            height: 2.5em;
+            line-height: 2.5em;
+            background: #444;
+            color: #fff;
+            border: 1px solid #aaa;
+            position: relative;
+        }
+        
+        .table-widget td {
+            width: 6em;
+            height: 2.5em;
+            line-height: 2.5em;
+            text-align: center;
+            border: 1px solid #aaa;
+            border-top: none;
+        }
+        
+        .table-widget .up {
+            display: inline-block;
+            border: 5px solid transparent;
+            border-bottom: 5px solid #fff;
+            position: absolute;
+            top: 0.3em;
+            right: 0.5em;
+            cursor: pointer;
+        }
+        
+        .table-widget .down {
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top: 5px solid #fff;
+            position: absolute;
+            bottom: 0.3em;
+            right: 0.5em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table-widget" id="table-widget-01">
+        <thead>
+            <tr>
+                <th id="col00">姓名</th>
+                <th id="col01">
+                    语文
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th id="col02">
+                    数学
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th id="col03">
+                    英语
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+                <th id="col04">
+                    总分
+                    <span class="up"></span>
+                    <span class="down"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>小明</td>
+                <td>80</td>
+                <td>90</td>
+                <td>70</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td>小红</td>
+                <td>90</td>
+                <td>60</td>
+                <td>90</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td>小亮</td>
+                <td>60</td>
+                <td>100</td>
+                <td>70</td>
+                <td>230</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        var table_widget = document.querySelector("#table-widget-01");
+        var upArray = table_widget.querySelectorAll(".up");
+        var downArray = table_widget.querySelectorAll(".down");
+        var table_body = table_widget.querySelector("tbody");
+        var sortItem = 0;
+        var sortFlag = true;
+
+        // sortItem:指示根据第几项进行排序
+        // sortFlag:指示是升序还是降序排序
+        function sortTable(sortItem, sortFlag) {
+            // dataline指的是 数据 行,即从第二行开始的所有tr
+            var dataline = table_body.children;
+            console.log(dataline);
+            if (sortFlag) { // 如果是升序的话 这里定义表格从下到上逐渐增大为 升序
+                // 冒泡排序
+                for (var i = 0; i < table_body.childElementCount - 1; i++) {
+                    for (var j = 1; j < table_body.childElementCount; j++) {
+                        // 第i行的第sortItem项 小于 第i行的第sortItem项
+                        // 则交换第i行和 第j行
+                        if (Number(dataline.item(i).children.item(sortItem).innerText) < Number(dataline.item(j).children.item(sortItem).innerText)) {
+                            var node = dataline.item(i).cloneNode(true);
+                            table_body.replaceChild(dataline.item(j).cloneNode(true), dataline.item(i));
+                            table_body.replaceChild(node, dataline.item(j));
+
+                        }
+                    }
+                }
+            } else {
+                for (var i = 0; i < table_body.childElementCount - 1; i++) {
+                    for (var j = 1; j < table_body.childElementCount; j++) {
+                        if (Number(dataline.item(i).children.item(sortItem).innerText) > Number(dataline.item(j).children.item(sortItem).innerText)) {
+                            var node = dataline.item(i).cloneNode(true);
+                            table_body.replaceChild(dataline.item(j).cloneNode(true), dataline.item(i));
+                            table_body.replaceChild(node, dataline.item(j));
+
+                        }
+                    }
+                }
+            }
+
+        }
+        upArray.forEach(function(element) {
+            element.addEventListener("click", function() {
+                sortItem = Number(this.parentElement.id.slice(3, 5));
+                sortFlag = true;
+                sortTable(sortItem, sortFlag);
+                upArray = table_widget.querySelectorAll(".up");
+                downArray = table_widget.querySelectorAll(".down");
+            });
+        });
+        downArray.forEach(function(element) {
+            element.addEventListener("click", function() {
+                sortItem = Number(this.parentElement.id.slice(3, 5));
+                sortFlag = false;
+                sortTable(sortItem, sortFlag);
+                upArray = table_widget.querySelectorAll(".up");
+                downArray = table_widget.querySelectorAll(".down");
+            });
+        });
+    </script>
+</body>
+
+</html>
