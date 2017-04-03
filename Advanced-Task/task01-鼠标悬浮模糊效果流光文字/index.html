@@ -4,7 +4,180 @@
 <head>
     <meta charset="utf-8">
     <title>有趣的鼠标悬浮模糊效果</title>
-    <link rel="stylesheet" href="index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 600px;
+            height: 300px;
+            margin: 50px auto;
+            background-image: url(http://ossweb-img.qq.com/images/lol/web201310/skin/big85006.jpg);
+            background-size: 600px;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        
+        .container:hover:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.4);
+            filter: blur(3px);
+            background-image: url(http://ossweb-img.qq.com/images/lol/web201310/skin/big85006.jpg);
+            background-size: 600px;
+            background-repeat: no-repeat;
+        }
+        
+        .container:hover h4 {
+            display: block;
+        }
+        
+        .container .border-top {
+            position: absolute;
+            top: 30px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 3;
+            display: none;
+            transform: 1s;
+        }
+        
+        .container .border-bottom {
+            position: absolute;
+            bottom: 30px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 3;
+            display: none;
+        }
+        
+        .container .border-left {
+            position: absolute;
+            left: 28px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 3;
+            display: none;
+        }
+        
+        .container .border-right {
+            position: absolute;
+            right: 28px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 3;
+            display: none;
+        }
+        
+        .container:hover .border-top,
+        .container:hover .border-bottom {
+            display: block;
+            animation: border-hori-animate 1s;
+            animation-fill-mode: forwards;
+        }
+        
+        .container:hover .border-left,
+        .container:hover .border-right {
+            display: block;
+            animation: border-vert-animate 1s;
+            animation-fill-mode: forwards;
+        }
+        
+        .container h4 {
+            font-size: 1.75em;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            z-index: 3;
+            display: none;
+        }
+        
+        .container:hover h4 {
+            display: block;
+            background-image: linear-gradient(to right, blue, red, blue, red, blue);
+            -webkit-background-clip: text;
+            color: transparent;
+            background-size: 200% 100%;
+            animation: title-color 3s infinite linear;
+        }
+        
+        .container p {
+            font-size: 1.5em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            z-index: 3;
+            display: none;
+        }
+        
+        .container:hover p {
+            display: block;
+            animation: content-color 5s infinite;
+        }
+        
+        @keyframes border-hori-animate {
+            0% {
+                left: 200px;
+                right: 200px
+            }
+            100% {
+                left: 30px;
+                right: 30px
+            }
+        }
+        
+        @keyframes border-vert-animate {
+            0% {
+                top: 150px;
+                bottom: 150px
+            }
+            100% {
+                top: 30px;
+                bottom: 30px
+            }
+        }
+        
+        @keyframes title-color {}
+        
+        @keyframes content-color {
+            0% {
+                color: greenyellow;
+            }
+            25% {
+                color: #00BFFF;
+            }
+            50% {
+                color: greenyellow;
+            }
+            75% {
+                color: #00BFFF;
+            }
+            100% {
+                color: greenyellow;
+            }
+        }
+        
+        @keyframes title-color {
+            0% {
+                background-position: 100% 0%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+    </style>
+    <!--<link rel="stylesheet" href="index.css">-->
 </head>
 
 <body>
