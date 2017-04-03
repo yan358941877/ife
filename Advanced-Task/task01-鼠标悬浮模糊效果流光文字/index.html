@@ -35,18 +35,14 @@
             background-repeat: no-repeat;
         }
         
-        .container:hover h4 {
-            display: block;
-        }
-        
         .container .border-top {
             position: absolute;
             top: 30px;
             height: 5px;
             background: rgba(255, 255, 255, 0.6);
             z-index: 3;
-            display: none;
-            transform: 1s;
+            animation: border-hori-end-animate 1s;
+            animation-fill-mode: forwards;
         }
         
         .container .border-bottom {
@@ -55,7 +51,8 @@
             height: 5px;
             background: rgba(255, 255, 255, 0.6);
             z-index: 3;
-            display: none;
+            animation: border-hori-end-animate 1s;
+            animation-fill-mode: forwards;
         }
         
         .container .border-left {
@@ -64,7 +61,8 @@
             width: 2px;
             background: rgba(255, 255, 255, 0.6);
             z-index: 3;
-            display: none;
+            animation: border-vert-end-animate 1s;
+            animation-fill-mode: forwards;
         }
         
         .container .border-right {
@@ -73,7 +71,8 @@
             width: 2px;
             background: rgba(255, 255, 255, 0.6);
             z-index: 3;
-            display: none;
+            animation: border-vert-end-animate 1s;
+            animation-fill-mode: forwards;
         }
         
         .container:hover .border-top,
@@ -95,10 +94,10 @@
             position: absolute;
             top: 30%;
             left: 50%;
+            color: transparent;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.3);
             z-index: 3;
-            display: none;
+            animation: title-end 1s linear;
         }
         
         .container:hover h4 {
@@ -116,9 +115,9 @@
             top: 50%;
             left: 50%;
             transform: translateX(-50%);
-            color: #fff;
             z-index: 3;
-            display: none;
+            animation: content-end 1s;
+            color: transparent;
         }
         
         .container:hover p {
@@ -137,6 +136,17 @@
             }
         }
         
+        @keyframes border-hori-end-animate {
+            0% {
+                left: 30px;
+                right: 30px
+            }
+            100% {
+                left: 300px;
+                right: 300px
+            }
+        }
+        
         @keyframes border-vert-animate {
             0% {
                 top: 150px;
@@ -148,7 +158,16 @@
             }
         }
         
-        @keyframes title-color {}
+        @keyframes border-vert-end-animate {
+            0% {
+                top: 30px;
+                bottom: 30px
+            }
+            100% {
+                top: 150px;
+                bottom: 150px
+            }
+        }
         
         @keyframes content-color {
             0% {
@@ -168,12 +187,30 @@
             }
         }
         
+        @keyframes content-end {
+            0% {
+                color: greenyellow;
+            }
+            100% {
+                color: transparent;
+            }
+        }
+        
         @keyframes title-color {
             0% {
                 background-position: 100% 0%;
             }
             100% {
                 background-position: 0% 0%;
+            }
+        }
+        
+        @keyframes title-end {
+            0% {
+                color: rgb(34, 0, 204);
+            }
+            100% {
+                color: rgba(255, 255, 255, 0);
             }
         }
     </style>
