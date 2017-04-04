@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>自定义右键菜单</title>
+    <link rel="stylesheet" href="task03.css">
+</head>
+
+<body>
+    <div class="custom-menu-area">
+        点击右键就可以看见自定义右键菜单
+        <ul class="custom-menu">
+            <li>Menu Item 1</li>
+            <li>Menu Item 1</li>
+        </ul>
+    </div>
+    <script>
+        // 取消默认的右键菜单
+        window.oncontextmenu = function() {
+            return false;
+        };
+        // 给自定义菜单区域添加点击事件
+        var diy_menu_area = document.querySelector(".custom-menu-area");
+        var diy_menu = diy_menu_area.querySelector(".custom-menu");
+        /*diy_menu_area.addEventListener("click", function(event){
+          
+        });*/
+        document.addEventListener("mouseup", function(event) {
+            if (event.button == 2 && event.target == diy_menu_area) {
+                // 获取鼠标点击时的位置
+                var mouse_x = event.clientX;
+                var mouse_y = event.clientY;
+                // 获取自定义右键菜单区域
+                var area_x = diy_menu_area.offsetLeft - diy_menu_area.scrollLeft;
+                var area_y = diy_menu_area.offsetTop - diy_menu_area.scrollTop;
+                var area_h = diy_menu_area.clientHeight;
+                var area_w = diy_menu_area.clientWidth;
+                // 判断点击位置是否在自定义区域内
+                if (mouse_x > area_x && mouse_x < area_x + area_w && mouse_y > area_y && mouse_y < area_y + area_h) {
+                    // 判断鼠标位置距离窗口的距离是否能能放得下一个自定义菜单
+                    if (window.innerWidth - mouse_x - 15 >= 150) {
+                        diy_menu.style.left = mouse_x - area_x + "px";
+                    } else {
+                        diy_menu.style.left = mouse_x - area_x - 150 + "px";
+                    }
+                    if (window.innerHeight - mouse_y >= 40) {
+                        diy_menu.style.top = mouse_y - area_y + "px";
+                    } else {
+                        diy_menu.style.top = mouse_y - area_y - 40 + "px";
+                    }
+                    diy_menu.style.display = "block";
+                }
+            } else {
+                diy_menu.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+</html>
