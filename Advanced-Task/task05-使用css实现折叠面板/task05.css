@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+body {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
 .collapse-container {
     width: 70%;
     min-width: 500px;
