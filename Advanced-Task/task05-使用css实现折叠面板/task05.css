@@ -1,0 +1,52 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.collapse-container {
+    width: 70%;
+    min-width: 500px;
+    margin: 2em auto;
+}
+
+.collapse-container li {
+    list-style: none;
+    border: 1px solid #bbb;
+    margin-bottom: 10px;
+}
+
+.collapse-container h4 {
+    font-size: 1.25em;
+    font-weight: normal;
+    padding: 0.5rem 1rem;
+    background: #f5f5f5;
+}
+
+.collapse-container h4 label {
+    cursor: pointer;
+}
+
+.collapse-container h4 label:hover {
+    text-decoration: underline;
+    font-weight: normal;
+}
+
+.collapse-container>li>div {
+    padding: 1rem;
+}
+
+.collapse-container>li input {
+    display: none;
+}
+
+.collapse-container>li>div {
+    display: none;
+}
+
+.collapse-container>li>input:checked~div {
+    display: block;
+}
+
+.collapse-container>li>input:checked~h4 {
+    border-bottom: 1px solid #bbb;
+}
