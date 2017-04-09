@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>CSS3实现3D 轮播图</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /* 布局问题 */
+        
+        .carousel-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* 透视的使用 */
+            perspective: 1000px;
+        }
+        
+        .img-ct {
+            position: absolute;
+            /* transform-style的使用 */
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: 1s;
+        }
+        
+        .carousel-3d img {
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -200px;
+            margin-top: -100px;
+        }
+        
+        .carousel-3d img:nth-child(1) {
+            /* transform的执行是有先后顺序的*/
+            transform: rotateY(0deg) translateZ(460px);
+        }
+        
+        .carousel-3d img:nth-child(2) {
+            transform: rotateY(60deg) translateZ(460px);
+        }
+        
+        .carousel-3d img:nth-child(3) {
+            transform: rotateY(120deg) translateZ(460px);
+        }
+        
+        .carousel-3d img:nth-child(4) {
+            transform: rotateY(180deg) translateZ(460px);
+        }
+        
+        .carousel-3d img:nth-child(5) {
+            transform: rotateY(240deg) translateZ(460px);
+        }
+        
+        .carousel-3d img:nth-child(6) {
+            transform: rotateY(300deg) translateZ(460px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel-3d">
+        <div class="img-ct">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big117003.jpg" alt="">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big412004.jpg" alt="">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big421001.jpg" alt="">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big18005.jpg" alt="">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big107002.jpg" alt="">
+            <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big45008.jpg" alt="">
+        </div>
+    </div>
+
+    <script>
+        var carousel = document.querySelector(".carousel-3d .img-ct");
+        var degree = 0;
+        setInterval(function() {
+            carousel.style.transform = "rotateY(" + degree + "deg)";
+            degree += 60;
+        }, 2000);
+    </script>
+</body>
+
+</html>
